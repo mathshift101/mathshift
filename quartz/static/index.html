@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mathshift Graph</title>
+
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #cy {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="cy"></div>
+
+<script>
+fetch("../generated/graph.json")
+.then(response => response.json())
+.then(data => {
+
+    const elements = [];
+
+    data.nodes.forEach(node => {
+        elements.push({
+            data: {
+                id: node.id,
+                label: node.title
+            }
+        });
+    });
+
+    data.edges.forEach(edge => {
+        elements.push({
+            data: {
+                source: edge.source,
+                target: edge.target
+            }
+        });
+    });
+
+    cytoscape({
+        container: document.getElementById("cy"),
+
+        elements,
+
+        style: [
+            {
+                selector: "node",
+                style: {
+                    label: "data(label)"
+                }
+            },
+            {
+                selector: "edge",
+                style: {
+                    "target-arrow-shape": "triangle",
+                    "curve-style": "bezier"
+                }
+            }
+        ],
+
+        layout: {
+            name: "breadthfirst",
+            directed: true
+        }
+    });
+
+});
+</script>
+
+</body>
+</html>

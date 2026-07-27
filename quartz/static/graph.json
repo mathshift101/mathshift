@@ -1,0 +1,42 @@
+{
+  "nodes": [
+    {
+      "id": "cellule",
+      "title": "Cellule"
+    },
+    {
+      "id": "interaction_forte",
+      "title": "Interaction forte"
+    },
+    {
+      "id": "atome",
+      "title": "Atome"
+    },
+    {
+      "id": "interaction_faible",
+      "title": "Interaction faible"
+    },
+    {
+      "id": "coeur",
+      "title": "Cœur"
+    }
+  ],
+  "edges": [
+    {
+      "source": "cellule",
+      "target": "coeur"
+    },
+    {
+      "source": "interaction_forte",
+      "target": "atome"
+    },
+    {
+      "source": "atome",
+      "target": "cellule"
+    },
+    {
+      "source": "interaction_faible",
+      "target": "atome"
+    }
+  ]
+}

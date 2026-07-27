@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Mathshift Graph</title>
+<script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+<style>
+body {
+    margin:0;
+    background:#0d1117;
+}
+
+#cy {
+    width:100vw;
+    height:100vh;
+}
+</style>
+</head>
+
+<body>
+<div id="cy"></div>
+
+<script>
+fetch("/static/graph.json")
+.then(r => r.json())
+.then(data => {
+
+const cy = cytoscape({
+container: document.getElementById("cy"),
+
+elements: [
+...data.nodes.map(n => ({
+data:{
+id:n.id,
+label:n.title
+}
+})),
+
+...data.edges.map(e => ({
+data:{
+source:e.source,
+target:e.target
+}
+}))
+],
+
+
+style:[
+{
+selector:"node",
+style:{
+"label":"data(label)",
+"text-valign":"center",
+"text-halign":"center",
+"color":"white",
+"background-color":"#222",
+"border-width":2,
+"border-color":"white",
+"width":120,
+"height":60,
+"font-size":16,
+"text-wrap":"wrap",
+"text-max-width":100
+}
+},
+{
+selector:"edge",
+style:{
+"width":3,
+"line-color":"white",
+"target-arrow-color":"white",
+"target-arrow-shape":"triangle",
+"curve-style":"bezier"
+}
+}
+],
+
+
+layout:{
+name:"breadthfirst",
+directed:true,
+spacingFactor:2
+}
+
+});
+
+cy.on("tap", "node", function(evt){
+    const id = evt.target.id();
+    window.location.href = "/" + id;
+});
+
+});
+</script>
+
+</body>
+</html>
